@@ -14,7 +14,9 @@ strong2        __[^_]*__
 strongem2      ___[^_]*___
 header1        ^#{1,6}.*
 header2        .+\n[=-]+\n
-bulletstart    ^[-]+[ ]
+fourspaces     [ ]{4}
+bulletstart    ^{fourspaces}*[-]+[ ]
+liststart      ^{fourspaces}*[0-9]+\.+[ ]
 codeline       [ ]
 spaces         \s+
 
@@ -48,6 +50,7 @@ nl             \n|\r\n|\r|\f
 {url}                           {markdownConsume(yytext, MARKDOWNURL, yyscanner);}
 {href}                          {markdownConsume(yytext, MARKDOWNHREF, yyscanner);}
 {bulletstart}                   {markdownConsume(yytext, MARKDOWNBULLETSTART, yyscanner);}
+{liststart}                     {markdownConsume(yytext, MARKDOWNLISTSTART, yyscanner);}
 
 [ ]{2,}$                        {markdownConsume(yytext, MARKDOWNNEWLINE, yyscanner);}
 [\n]{2,}                        {markdownConsume(yytext, MARKDOWNPARAGRAPH, yyscanner);}

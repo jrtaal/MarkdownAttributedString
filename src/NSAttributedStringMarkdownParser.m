@@ -55,12 +55,14 @@ int markdownConsume(char* text, int token, yyscan_t scanner);
 
   UINSFont* _topFont;
   NSMutableDictionary* _fontCache;
+
+  NSMutableArray *_listIndices;
 }
 
 - (id)init {
   if ((self = [super init])) {
     _headerFonts = [NSMutableDictionary dictionary];
-
+    _listIndices = [NSMutableArray new];
     self.paragraphFont = [UINSFont systemFontOfSize:12];
     self.boldFontName = [UINSFont boldSystemFontOfSize:12].fontName;
     self.italicFontName = @"Helvetica-Oblique";
@@ -224,6 +226,13 @@ int markdownConsume(char* text, int token, yyscan_t scanner);
   return [fontName stringByAppendingFormat:@"%f", pointSize];
 }
 
+-(void)dealloc {
+  [_fontCache enumerateKeysAndObjectsUsingBlock:^(id key, NSValue * value, BOOL *stop) {
+    CTFontRef fontRef = value.pointerValue;
+    CFRelease(fontRef);
+  }];
+}
+
 - (CTFontRef)fontRefForFontWithName:(NSString *)fontName pointSize:(CGFloat)pointSize {
   id key = [self keyForFontWithName:fontName pointSize:pointSize];
   NSValue* value = _fontCache[key];
@@ -265,6 +274,8 @@ int markdownConsume(char* text, int token, yyscan_t scanner);
 
   BOOL static addNewlineAndEatWhitespace = false;
   BOOL static eatWhitespaceAfter = false;
+  NSInteger static _listLevel = 0;
+
   if (addNewlineAndEatWhitespace) {
     [_accum appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n" attributes:attributes] ];
 
@@ -372,6 +383,30 @@ int markdownConsume(char* text, int token, yyscan_t scanner);
 
       [_bulletStarts addObject:@(_accum.length)];
       textAsString = @"\n•\t";
+      addNewlineAndEatWhitespace = false;
+      eatWhitespaceAfter = true;
+      break;
+    }
+    case MARKDOWNLISTSTART: {
+      NSInteger numberOfDashes = [textAsString rangeOfString:@" "].location;
+      if (_bulletStarts.count > 0 && _bulletStarts.count <= numberOfDashes) {
+          // Treat nested bullet points as flat ones...
+
+          // Finish off the previous dash and start a new one.
+        NSInteger lastBulletStart = [[_bulletStarts lastObject] intValue];
+        [_bulletStarts removeLastObject];
+
+        [_accum addAttributes:[self paragraphStyle]
+                        range:NSMakeRange(lastBulletStart, _accum.length - lastBulletStart)];
+      }
+      while (_listIndices.count <= _listLevel) {
+        [_listIndices addObject:@(1)];
+      }
+      NSInteger listIndex = [_listIndices[_listLevel] integerValue ];
+      [_bulletStarts addObject:@(_accum.length)];
+      textAsString = [NSString stringWithFormat: @"\n%ld.\t", (long)listIndex];
+      _listIndices[_listLevel] = @(++listIndex);
+      
       addNewlineAndEatWhitespace = false;
       eatWhitespaceAfter = true;
       break;
