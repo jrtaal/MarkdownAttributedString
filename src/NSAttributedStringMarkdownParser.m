@@ -231,6 +231,7 @@ int markdownConsume(char* text, int token, yyscan_t scanner);
     CTFontRef fontRef = value.pointerValue;
     CFRelease(fontRef);
   }];
+  [_fontCache removeAllObjects];
 }
 
 - (CTFontRef)fontRefForFontWithName:(NSString *)fontName pointSize:(CGFloat)pointSize {
