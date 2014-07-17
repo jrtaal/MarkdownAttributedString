@@ -240,6 +240,11 @@ int markdownConsume(char* text, int token, yyscan_t scanner);
   if (nil == value) {
     CTFontRef fontRef = CTFontCreateWithName((__bridge CFStringRef)fontName, pointSize, nil);
     value = [NSValue valueWithPointer:fontRef];
+    NSValue * old = _fontCache[key];
+    if (old) {
+      [_fontCache removeObjectForKey:key];
+      CFRelease(old.pointerValue);
+    }
     _fontCache[key] = value;
   }
   return [value pointerValue];
