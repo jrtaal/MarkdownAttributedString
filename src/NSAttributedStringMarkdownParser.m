@@ -16,7 +16,7 @@
 
 
 #ifdef TARGET_OS_IPHONE
-  #import <Foundation/Foundation.h>
+  #import <NSText.h>
 #endif
 
 #import "NSAttributedStringMarkdownParser.h"
