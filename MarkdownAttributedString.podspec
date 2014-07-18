@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "MarkdownAttributedString"
-  s.version      = "1.0.3"
+  s.version      = "1.0.4"
   s.summary      = "Generates NSAttributedString from a Markdown string."
 
   s.description  = <<-DESC
@@ -72,7 +72,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "git@github.com:jrtaal/MarkdownAttributedString.git", :tag => "1.0.3" }
+  s.source       = { :git => "git@github.com:jrtaal/MarkdownAttributedString.git", :tag => "1.0.4" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
