@@ -14,6 +14,11 @@
 // limitations under the License.
 //
 
+
+#ifdef TARGET_OS_IPHONE
+  #import <Foundation/Foundation.h>
+#endif
+
 #import "NSAttributedStringMarkdownParser.h"
 
 #import "MarkdownTokens.h"
@@ -168,7 +173,7 @@ int markdownConsume(char* text, int token, yyscan_t scanner);
   CGFloat lineSpacing = 0.45;
 
 #ifdef TARGET_OS_IPHONE
-  NSTextAlignment alignment = kCTTextAlignmentLeft;
+  NSTextAlignment alignment = NSTextAlignmentLeft;
 
   NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
   style.paragraphSpacing = paragraphSpacing;
