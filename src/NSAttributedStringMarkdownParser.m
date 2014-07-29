@@ -15,10 +15,6 @@
 //
 
 
-#ifdef TARGET_OS_IPHONE
-  #import <UIKit/NSText.h>
-#endif
-
 #import "NSAttributedStringMarkdownParser.h"
 
 #import "MarkdownTokens.h"
