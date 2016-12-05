@@ -66,7 +66,7 @@ int markdownConsume(char* text, int token, yyscan_t scanner);
     _listIndices = [NSMutableArray new];
     self.paragraphFont = [UINSFont systemFontOfSize:12];
     self.boldFontName = [UINSFont boldSystemFontOfSize:12].fontName;
-    self.italicFontName = @"Helvetica-Oblique";
+    self.italicFontName = [UINSFont italicSystemFontOfSize:12].fontName;
     self.boldItalicFontName = @"Helvetica-BoldOblique";
     self.codeFontName = @"Courier";
 
