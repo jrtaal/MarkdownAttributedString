@@ -24,7 +24,7 @@
   #define UINSFont NSFont
 #endif
 
-typedef enum {
+typedef NS_ENUM(unsigned int, NSAttributedStringMarkdownParserHeader) {
   NSAttributedStringMarkdownParserHeader1,
   NSAttributedStringMarkdownParserHeader2,
   NSAttributedStringMarkdownParserHeader3,
@@ -32,7 +32,7 @@ typedef enum {
   NSAttributedStringMarkdownParserHeader5,
   NSAttributedStringMarkdownParserHeader6,
 
-} NSAttributedStringMarkdownParserHeader;
+};
 
 @protocol NSAttributedStringMarkdownStylesheet;
 
@@ -51,7 +51,7 @@ typedef enum {
 @interface NSAttributedStringMarkdownParser : NSObject <NSCopying>
 
 - (NSAttributedString *)attributedStringFromMarkdownString:(NSString *)string;
-- (NSArray *)links; // Array of NSAttributedStringMarkdownLink
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *links; // Array of NSAttributedStringMarkdownLink
 
 @property (nonatomic, strong) UINSFont* paragraphFont; // Default: systemFontOfSize:12
 @property (nonatomic, copy) NSString* boldFontName; // Default: boldSystemFont

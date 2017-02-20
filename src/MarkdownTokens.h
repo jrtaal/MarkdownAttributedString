@@ -16,7 +16,7 @@
 
 #include <stdio.h>
 
-typedef enum {
+typedef NS_ENUM(unsigned int, MarkdownParserCodes) {
   MARKDOWNFIRST_TOKEN = 0x100,
   MARKDOWNEM = MARKDOWNFIRST_TOKEN,
   MARKDOWNSTRONG,
@@ -34,7 +34,7 @@ typedef enum {
   MARKDOWNWHITESPACE,
   MARKDOWNUNKNOWN,
 
-} MarkdownParserCodes;
+};
 
 extern const char* markdownnames[];
 
